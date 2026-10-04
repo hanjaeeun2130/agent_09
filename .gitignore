@@ -1,2 +1,5 @@
 CLAUDE.local.md
 .claude/settings.local.json
+
+# Office temporary lock files
+~$*

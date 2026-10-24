@@ -6,3 +6,6 @@
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Playwright MCP snapshots, logs, screenshots
+.playwright-mcp/

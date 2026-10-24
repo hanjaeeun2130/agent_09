@@ -28,6 +28,7 @@ agent_09/
 │   └── ppt/
 │       └── slide-design-system.md   # 오렌지 슬라이드 디자인 시스템 (색상, 폰트, 레이아웃)
 ├── research/      # 자료조사 결과 .md (영어)
+│   └── images/    # 산출물에 쓰인 이미지(예: 블로그용 Unsplash 사진), 주제별 하위 폴더
 ├── report/        # 최종 보고서 .docx (한글)
 ├── slides/        # 발표 자료 .pptx (한글), mk-ppt 스킬로 생성
 └── translate/     # 모든 .md의 한글 번역본 (같은 상대 경로)

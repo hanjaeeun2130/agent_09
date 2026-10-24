@@ -28,6 +28,7 @@ agent_09/
 │   └── ppt/
 │       └── slide-design-system.md   # Orange slide design system (colors, fonts, layout)
 ├── research/      # Research findings as .md (English)
+│   └── images/    # Images used in deliverables (e.g. Unsplash photos for blog posts), one subfolder per topic
 ├── report/        # Final reports as .docx (Korean)
 ├── slides/        # Presentations as .pptx (Korean), built with the mk-ppt skill
 └── translate/     # Korean translations of every .md, mirroring relative paths

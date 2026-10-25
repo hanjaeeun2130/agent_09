@@ -15,8 +15,11 @@
 agent_09/
 ├── CLAUDE.md      # 프로젝트 규칙 (이 파일)
 ├── .gitignore     # Office 잠금 파일(~$*)과 OS 임시 파일 제외
+├── .mcp.json      # 프로젝트 범위 MCP 서버 설정 (AI 이미지·영상 생성용 Higgsfield, 디자인 파일용 Figma)
 ├── .claude/
 │   ├── rules/
+│   │   ├── browser-rule-v1/   # 웹 브라우저 제어 시 항상 로드되는 규칙 (Playwright MCP)
+│   │   │   └── browser-rule-v1.md
 │   │   └── ppt-rule-v1/   # .pptx 제작 시 항상 로드되는 규칙
 │   │       └── ppt-rule-v1.md
 │   └── skills/

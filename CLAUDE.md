@@ -15,8 +15,11 @@ This is a research-and-report workspace, not a code project.
 agent_09/
 ├── CLAUDE.md      # Project rules (this file)
 ├── .gitignore     # Ignores Office lock files (~$*) and OS junk
+├── .mcp.json      # Project-scoped MCP servers (Higgsfield for AI image/video generation, Figma for design files)
 ├── .claude/
 │   ├── rules/
+│   │   ├── browser-rule-v1/   # Always-loaded rules for web browser control (Playwright MCP)
+│   │   │   └── browser-rule-v1.md
 │   │   └── ppt-rule-v1/   # Always-loaded rules for building .pptx decks
 │   │       └── ppt-rule-v1.md
 │   └── skills/

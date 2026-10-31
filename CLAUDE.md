@@ -17,6 +17,9 @@ agent_09/
 ├── .gitignore     # Ignores Office lock files (~$*) and OS junk
 ├── .mcp.json      # Project-scoped MCP servers (Higgsfield for AI image/video generation, Figma for design files)
 ├── .claude/
+│   ├── agents/        # Project sub agents
+│   │   ├── research-agent.md   # Web research on a topic → research/<topic>/<topic>.md
+│   │   └── blog-agent.md       # Naver blog post → output/blog/ manuscript + Playwright draft save
 │   ├── rules/
 │   │   ├── browser-rule-v1/   # Always-loaded rules for web browser control (Playwright MCP)
 │   │   │   └── browser-rule-v1.md
@@ -30,14 +33,24 @@ agent_09/
 ├── references/    # Design references (.md, English) for deliverables
 │   └── ppt/
 │       └── slide-design-system.md   # Orange slide design system (colors, fonts, layout)
-├── research/      # Research findings as .md (English)
+├── research/      # Research findings as .md (English), one subfolder per topic for new research
 │   └── images/    # Images used in deliverables (e.g. Unsplash photos for blog posts), one subfolder per topic
+├── output/
+│   └── blog/      # Naver blog manuscripts as .md (Korean), written by blog-agent
 ├── report/        # Final reports as .docx (Korean)
 ├── slides/        # Presentations as .pptx (Korean), built with the mk-ppt skill
 └── translate/     # Korean translations of every .md, mirroring relative paths
 ```
 
-- Save research results (`.md`) in `research/`.
+- Save research results (`.md`) in `research/`. New research from `research-agent` goes in `research/<topic>/`.
+- Save Naver blog manuscripts in `output/blog/`. They are written in Korean (the post itself), so they are an exception to the English `.md` rule and need no translation.
+
+## Sub Agents
+
+- `research-agent` (`.claude/agents/research-agent.md`): use for topic research; it web-searches and saves an English report plus its Korean translation.
+- `blog-agent` (`.claude/agents/blog-agent.md`): use for Naver blog posts; it saves the manuscript to `output/blog/`, enters it with the Playwright MCP and only saves it as a draft (never publishes), then reports the link.
+- **Before every `blog-agent` call, ask the user to confirm the Naver blog ID**, even if one was used before, and pass the confirmed ID in the prompt.
+- Naver login is done by the user. If `blog-agent` returns asking for login, tell the user, wait until they finish, then call it again.
 - Save reports (`.docx`) in `report/`. Do not leave deliverables in the project root.
 - Save presentations (`.pptx`) in `slides/`, using the `mk-ppt` skill (`.claude/skills/mk-ppt/`).
 - For any `.pptx` work, apply `.claude/rules/ppt-rule-v1/ppt-rule-v1.md` first. Priority: ppt-rule-v1 → the user's design `.md` → `mk-ppt` defaults.

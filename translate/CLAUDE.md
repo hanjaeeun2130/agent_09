@@ -17,6 +17,9 @@ agent_09/
 ├── .gitignore     # Office 잠금 파일(~$*)과 OS 임시 파일 제외
 ├── .mcp.json      # 프로젝트 범위 MCP 서버 설정 (AI 이미지·영상 생성용 Higgsfield, 디자인 파일용 Figma)
 ├── .claude/
+│   ├── agents/        # 프로젝트 서브 에이전트
+│   │   ├── research-agent.md   # 주제 웹 자료조사 → research/<주제>/<주제>.md
+│   │   └── blog-agent.md       # 네이버 블로그 글 → output/blog/ 원고 저장 + Playwright로 임시저장
 │   ├── rules/
 │   │   ├── browser-rule-v1/   # 웹 브라우저 제어 시 항상 로드되는 규칙 (Playwright MCP)
 │   │   │   └── browser-rule-v1.md
@@ -30,14 +33,24 @@ agent_09/
 ├── references/    # 산출물 제작용 디자인 참고 자료 .md (영어)
 │   └── ppt/
 │       └── slide-design-system.md   # 오렌지 슬라이드 디자인 시스템 (색상, 폰트, 레이아웃)
-├── research/      # 자료조사 결과 .md (영어)
+├── research/      # 자료조사 결과 .md (영어), 새 조사는 주제별 하위 폴더
 │   └── images/    # 산출물에 쓰인 이미지(예: 블로그용 Unsplash 사진), 주제별 하위 폴더
+├── output/
+│   └── blog/      # 네이버 블로그 원고 .md (한글), blog-agent가 작성
 ├── report/        # 최종 보고서 .docx (한글)
 ├── slides/        # 발표 자료 .pptx (한글), mk-ppt 스킬로 생성
 └── translate/     # 모든 .md의 한글 번역본 (같은 상대 경로)
 ```
 
-- 자료조사 결과(`.md`)는 `research/`에 저장합니다.
+- 자료조사 결과(`.md`)는 `research/`에 저장합니다. `research-agent`의 새 조사는 `research/<주제>/`에 저장합니다.
+- 네이버 블로그 원고는 `output/blog/`에 저장합니다. 원고는 블로그 글 자체라 한글로 쓰므로 영문 `.md` 규칙의 예외이며 번역본이 필요 없습니다.
+
+## 서브 에이전트
+
+- `research-agent` (`.claude/agents/research-agent.md`): 주제 자료조사에 사용합니다. 웹 검색 후 영문 보고서와 한글 번역본을 저장합니다.
+- `blog-agent` (`.claude/agents/blog-agent.md`): 네이버 블로그 글에 사용합니다. 원고를 `output/blog/`에 저장하고, Playwright MCP로 입력한 뒤 임시저장만 하고(발행 안 함) 링크를 보고합니다.
+- **`blog-agent`를 호출하기 전에는 매번 사용자에게 네이버 블로그 ID를 확인합니다.** 이전에 쓴 ID가 있어도 다시 확인하고, 확인된 ID를 프롬프트에 넘깁니다.
+- 네이버 로그인은 사용자가 직접 합니다. `blog-agent`가 로그인을 요청하며 돌아오면 사용자에게 알리고, 로그인이 끝난 뒤 다시 호출합니다.
 - 보고서(`.docx`)는 `report/`에 저장합니다. 산출물을 프로젝트 루트에 두지 않습니다.
 - 발표 자료(`.pptx`)는 `mk-ppt` 스킬(`.claude/skills/mk-ppt/`)을 사용해 `slides/`에 저장합니다.
 - `.pptx` 작업에는 `.claude/rules/ppt-rule-v1/ppt-rule-v1.md`를 가장 먼저 적용합니다. 우선순위: ppt-rule-v1 → 사용자의 디자인 `.md` → `mk-ppt` 기본값.

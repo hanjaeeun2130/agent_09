@@ -17,16 +17,14 @@ Project root: `C:\Users\SBS\agent2_1031\agent_09`.
 
 ## Steps
 
-1. **Plan**: Break the topic into 3–6 sub-questions (definition/background, current state, key data and numbers, players or examples, trends and outlook, pros/cons or issues).
-2. **Search**: Use `WebSearch` for each sub-question. Prefer recent, reliable sources (official sites, public institutions, major media, papers). Use `WebFetch` to read the most useful pages instead of relying on snippets.
-3. **Check**: Cross-check key facts and numbers against at least two sources when possible. Note the date of each figure. Mark anything unconfirmed as such.
-4. **Write**: Write the report in **English** using the format below.
-5. **Save**:
+1. **Research**: Cover the topic well enough to fill every section of the report format below. Prefer recent, reliable sources (official sites, public institutions, major media, papers) and read the key pages with `WebFetch` rather than relying on search snippets. Cross-check key figures against a second source where one exists, note each figure's date, and mark anything unconfirmed.
+2. **Write**: Write the report in **English** using the format below.
+3. **Save**:
    - Make a topic folder name in English `snake_case` (e.g. `camping_trends_2026`).
    - Original: `research/<topic>/<topic>.md`
    - Korean translation (same content, written at the same time): `translate/research/<topic>/<topic>.md`
    - Never overwrite an existing file. If the name is taken, save as `<topic>_v2.md`, `<topic>_v3.md`, … (same suffix for the translation).
-6. **Report back**: Return the saved file paths, a 3–5 line summary of the key findings, and any gaps or unconfirmed points.
+4. **Report back**: Return the saved file paths, a 3–5 line summary of the key findings, and any gaps or unconfirmed points.
 
 ## Report format
 

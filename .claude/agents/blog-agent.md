@@ -52,7 +52,7 @@ Manuscript file format:
 1. Open `https://blog.naver.com/<ID>?Redirect=Write` (or `https://blog.naver.com/<ID>/postwrite`).
 2. **Login**: If a login page appears, do not type any ID or password. Leave the login page open, stop, and return: "브라우저에서 네이버 로그인을 직접 해 주세요. 로그인 후 다시 호출해 주세요." (Do not close the browser in this case.)
 3. Check that the logged-in blog matches the given ID. If it does not, stop and report the mismatch.
-4. Close any popups (e.g. "작성 중인 글이 있습니다" — choose to start a new post, not to restore, unless told otherwise; help/tooltip layers).
+4. Close help/tooltip layers. If a "작성 중인 글이 있습니다" popup appears, choose nothing: starting a new post may discard the user's autosaved draft. Stop and return: "작성 중인 글이 있습니다 팝업이 떴습니다. 기존 글을 복원할지, 새 글로 시작할지 알려 주세요." Then follow the choice the main session passes back.
 5. Click the title area and type the title. Click the body area and type the body section by section. Use `browser_snapshot` to find elements; the editor (SmartEditor ONE) may sit inside an iframe named `mainFrame`.
 6. Add the hashtags at the end of the body (or in the tag field if it is shown).
 7. Take a screenshot to check the title and body went in correctly.

@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code (claude.ai/code) when working in this repository.
 
 ## Identity
 
@@ -51,6 +51,7 @@ agent_09/
 - `blog-agent` (`.claude/agents/blog-agent.md`): use for Naver blog posts; it saves the manuscript to `output/blog/`, enters it with the Playwright MCP and only saves it as a draft (never publishes), then reports the link.
 - **Before every `blog-agent` call, ask the user to confirm the Naver blog ID**, even if one was used before, and pass the confirmed ID in the prompt.
 - Naver login is done by the user. If `blog-agent` returns asking for login, tell the user, wait until they finish, then call it again.
+- If `blog-agent` returns because of the "작성 중인 글이 있습니다" popup, ask the user whether to restore the old draft or start a new post, then call it again with their choice.
 - Save reports (`.docx`) in `report/`. Do not leave deliverables in the project root.
 - Save presentations (`.pptx`) in `slides/`, using the `mk-ppt` skill (`.claude/skills/mk-ppt/`).
 - For any `.pptx` work, apply `.claude/rules/ppt-rule-v1/ppt-rule-v1.md` first. Priority: ppt-rule-v1 → the user's design `.md` → `mk-ppt` defaults.
@@ -58,7 +59,7 @@ agent_09/
 
 ## Workflow
 
-1. **Todo list first**: Whenever the user requests a task through a prompt, always create a related todo list and report it to the user before doing any work. Include the steps, the deliverables, where they will be saved, and anything that needs the user's decision.
+1. **Todo list first**: Whenever the user requests a task that creates, changes or deletes files (or acts in a browser), create a related todo list and report it to the user before doing any work. Include the steps, the deliverables, where they will be saved, and anything that needs the user's decision.
 2. **Execute only after approval**: Start the work only after the user has read and approved the todo list. If the user asks for changes, revise the list, report it again, and wait for approval again.
 3. **Finish by tidying the structure**: If the work added any folders or files, always reorganize them into the structure Claude Code recognizes best before finishing:
    - Move files into the right purpose-based folder; leave no deliverables in the project root.
@@ -68,6 +69,6 @@ agent_09/
 
 ## Markdown File Policy
 
-- All `.md` files created from now on must be written in English.
-- For every `.md` file, save a Korean translation at `c:\Users\SBS\agent1004\agent_09\translate`, mirroring the same relative path/filename (e.g. `research/x.md` → `translate/research/x.md`). Create the translation at the same time as the original.
+- Write every new `.md` file in English.
+- For every `.md` file, save a Korean translation in this project's `translate/` folder, mirroring the same relative path/filename (e.g. `research/x.md` → `translate/research/x.md`). Create the translation at the same time as the original.
 - Whenever a `.md` file is modified or deleted, check for the change and apply the same update (or deletion) to its corresponding translation file in `translate`, keeping both in sync.

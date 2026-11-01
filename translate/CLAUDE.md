@@ -38,10 +38,12 @@ agent_09/
 │   ├── ppt/
 │   │   └── slide-design-system.md   # 오렌지 슬라이드 디자인 시스템 (색상, 폰트, 레이아웃)
 │   └── web/       # 주제별 웹 디자인 레퍼런스, web-designer가 작성: <주제>_reference.md + images/
+│       └── entropy/                     # 엔트로피 페이지 레퍼런스(gdweb/dbcut) + images/
 ├── output/        # 산출물: 작업 종류별 폴더 → 그 안에 주제별 하위 폴더
 │   ├── research/  # 자료조사 결과 .md (영어)
 │   │   ├── ai_development/              # AI 발전 자료조사 (v1, v2)
 │   │   ├── camping_cardnews/            # 캠핑 카드뉴스: 매너, 썸네일 콘셉트, images/
+│   │   ├── entropy/                     # 웹페이지용 엔트로피 자료조사
 │   │   ├── higgsfield_image_save_check/ # Higgsfield 이미지 저장 테스트 메모
 │   │   ├── kimjang_cost_2026/           # 2026 김장 비용 자료조사
 │   │   └── kyobo_economy_book/          # 교보 경제도서 자료 (p4–5, v1, v2)
@@ -51,6 +53,7 @@ agent_09/
 │   │   ├── ai_development/              # AI_발전_발표.pptx
 │   │   └── anthropic_company_intro/     # Anthropic_회사소개.pptx
 │   └── web/       # 작업별 웹 페이지 코드(index.html, css/, js/, lib/, images/), developer가 작성·배포
+│       └── entropy/                     # 엔트로피 소개 페이지 (GitHub Pages: entropy)
 ├── report/        # 최종 보고서 .docx (한글), 주제별 하위 폴더
 │   └── ai_development/                  # AI_발전_보고서 (v1, v2)
 └── translate/     # 모든 .md의 한글 번역본 (같은 상대 경로, 예: translate/output/research/...)

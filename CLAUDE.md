@@ -38,10 +38,12 @@ agent_09/
 │   ├── ppt/
 │   │   └── slide-design-system.md   # Orange slide design system (colors, fonts, layout)
 │   └── web/       # Web design references by topic, made by web-designer: <topic>_reference.md + images/
+│       └── entropy/                     # Entropy page references (gdweb/dbcut) + images/
 ├── output/        # Deliverables, one folder per task type → one subfolder per topic
 │   ├── research/  # Research findings as .md (English)
 │   │   ├── ai_development/              # AI development research (v1, v2)
 │   │   ├── camping_cardnews/            # Camping card news: manners, thumbnail concepts, images/
+│   │   ├── entropy/                     # Entropy research for the web page
 │   │   ├── higgsfield_image_save_check/ # Higgsfield image-save test notes
 │   │   ├── kimjang_cost_2026/           # 2026 kimjang cost research
 │   │   └── kyobo_economy_book/          # Kyobo economy book notes (p4–5, v1, v2)
@@ -51,6 +53,7 @@ agent_09/
 │   │   ├── ai_development/              # AI_발전_발표.pptx
 │   │   └── anthropic_company_intro/     # Anthropic_회사소개.pptx
 │   └── web/       # Web page code by task (index.html, css/, js/, lib/, images/), built and deployed by developer
+│       └── entropy/                     # Entropy intro page (GitHub Pages: entropy)
 ├── report/        # Final reports as .docx (Korean), one subfolder per topic
 │   └── ai_development/                  # AI_발전_보고서 (v1, v2)
 └── translate/     # Korean translations of every .md, mirroring relative paths (e.g. translate/output/research/...)

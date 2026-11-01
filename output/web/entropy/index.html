@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>엔트로피 이야기 — 시간은 왜 앞으로만 흐를까?</title>
+  <meta name="description" content="커피가 식고 잉크가 퍼지는 이유부터 볼츠만의 묘비, 정보의 비트, 블랙홀과 우주의 끝까지. 엔트로피를 쉽고 재미있게 소개하는 한 페이지 과학 이야기.">
+  <meta name="theme-color" content="#0B0E1A">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <header class="site-header" id="top">
+    <div class="header-inner">
+      <a class="brand" href="#hero" aria-label="엔트로피 이야기 처음으로">
+        <span class="brand-mark" aria-hidden="true">S</span>
+        <span class="brand-text">엔트로피 이야기</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-toggle-bar" aria-hidden="true"></span>
+        <span class="visually-hidden">메뉴 열기</span>
+      </button>
+      <nav class="site-nav" id="site-nav" aria-label="섹션 메뉴">
+        <ul>
+          <li><a href="#what">엔트로피란?</a></li>
+          <li><a href="#coins">확률 놀이</a></li>
+          <li><a href="#second-law">제2법칙</a></li>
+          <li><a href="#history">역사</a></li>
+          <li><a href="#information">정보</a></li>
+          <li><a href="#universe">생명·우주</a></li>
+          <li><a href="#myths">오해와 숫자</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="progress" aria-hidden="true"><span class="progress-bar"></span></div>
+  </header>
+
+  <nav class="dot-nav" aria-label="섹션 진행 표시">
+    <ol>
+      <li><a href="#hero" data-label="시작"><span class="visually-hidden">시작</span></a></li>
+      <li><a href="#what" data-label="엔트로피란?"><span class="visually-hidden">엔트로피란?</span></a></li>
+      <li><a href="#coins" data-label="확률 놀이"><span class="visually-hidden">확률 놀이</span></a></li>
+      <li><a href="#second-law" data-label="제2법칙"><span class="visually-hidden">제2법칙</span></a></li>
+      <li><a href="#history" data-label="역사"><span class="visually-hidden">역사</span></a></li>
+      <li><a href="#information" data-label="정보"><span class="visually-hidden">정보</span></a></li>
+      <li><a href="#universe" data-label="생명·우주"><span class="visually-hidden">생명·우주</span></a></li>
+      <li><a href="#myths" data-label="오해와 숫자"><span class="visually-hidden">오해와 숫자</span></a></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+
+    <!-- 1. HERO -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <canvas class="hero-canvas" id="particle-canvas" aria-hidden="true"></canvas>
+      <div class="hero-frame" aria-hidden="true">
+        <span class="corner corner-tl"></span><span class="corner corner-tr"></span>
+        <span class="corner corner-bl"></span><span class="corner corner-br"></span>
+      </div>
+      <div class="hero-content">
+        <p class="eyebrow">00 · ENTROPY</p>
+        <h1 class="hero-title" id="hero-title">시간은 왜<br>앞으로만 흐를까?</h1>
+        <p class="hero-lead">뜨거운 커피는 저절로 식지만, 식은 커피가 저절로 다시 뜨거워지는 일은 없어요. 물에 떨어진 잉크는 퍼지기만 하고 다시 한 방울로 모이지 않죠. 이 한쪽 방향의 비밀에 이름을 붙이면 바로 <strong>엔트로피</strong>예요.</p>
+        <p class="hero-def">엔트로피는 <em>에너지가 얼마나 넓게 퍼져 있는지</em>, 다시 말해 <em>눈에 보이는 같은 상태를 만드는 미시적 배치가 몇 가지나 되는지</em>를 나타내는 양이에요.</p>
+        <div class="hero-controls">
+          <div class="meter" role="group" aria-label="입자 상자의 엔트로피 미터">
+            <span class="meter-label">엔트로피 미터</span>
+            <span class="meter-track"><span class="meter-fill" id="meter-fill"></span></span>
+            <span class="meter-value mono" id="meter-value" aria-live="off">—</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" type="button" id="particle-reset">다시 한쪽에 모으기</button>
+            <button class="btn btn-ghost" type="button" id="particle-toggle" aria-pressed="false">일시정지</button>
+          </div>
+          <p class="hero-note">입자 상자 데모: 오른쪽 끝에 모여 있던 입자들이 칸막이가 열리면 상자 전체로 퍼져요. 저절로 다시 한쪽 끝에 모일까요? 기다려 보세요. 아마 우주가 끝날 때까지도 안 모일 거예요.</p>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#what"><span>스크롤해서 탐험하기</span><span class="scroll-cue-line" aria-hidden="true"></span></a>
+    </section>
+
+    <!-- 2. WHAT IS ENTROPY -->
+    <section class="section" id="what" aria-labelledby="what-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">01 · WHAT IS ENTROPY</p>
+          <h2 id="what-title">엔트로피, 대체<br>무엇을 세는 걸까?</h2>
+          <p class="lead">한마디로 하면 “경우의 수”예요. 우리가 보는 큰 그림(거시 상태)은 같아도, 그걸 만드는 입자들의 세세한 배치(미시 상태)는 엄청나게 많을 수 있거든요.</p>
+        </header>
+
+        <div class="ring-layout">
+          <div class="ring-panel reveal" aria-hidden="true">
+            <div class="ring">
+              <span class="ring-core">거시 상태<br><small>“방 안 공기가 고르게 퍼져 있다”</small></span>
+              <span class="orb orb-1"></span><span class="orb orb-2"></span><span class="orb orb-3"></span>
+              <span class="orb orb-4"></span><span class="orb orb-5"></span><span class="orb orb-6"></span>
+              <span class="orb orb-7"></span><span class="orb orb-8"></span>
+            </div>
+            <p class="ring-caption">주변의 작은 점 하나하나가 같은 모습을 만드는 서로 다른 미시 상태예요.</p>
+          </div>
+          <div class="ring-text reveal">
+            <h3>거시 상태 vs 미시 상태</h3>
+            <p><strong>거시 상태</strong>는 우리가 재는 것이에요. 온도, 압력, 혹은 “동전 4개 중 앞면 3개” 같은 것이죠.</p>
+            <p><strong>미시 상태</strong>는 모든 입자 하나하나의 정확한 위치와 움직임이에요. “첫째·둘째·넷째 동전이 앞면”처럼요.</p>
+            <p>자연은 어떤 특별한 힘에 끌려서가 아니라, 그저 <em>미시 상태가 압도적으로 많은 쪽</em>으로 흘러가요. 확률이 한쪽으로 너무나 기울어 있어서, 거의 확실하게 그렇게 되는 거예요.</p>
+          </div>
+        </div>
+
+        <ul class="card-grid card-grid-3">
+          <li class="glass-card reveal">
+            <span class="card-icon" aria-hidden="true">🔥</span>
+            <h3>에너지가 퍼지는 정도</h3>
+            <p>엔트로피가 높다는 건 에너지가 고르게 퍼져 있다는 뜻, 낮다는 건 한곳에 몰려 있다는 뜻이에요. 단위는 J/K(줄 퍼 켈빈)예요.</p>
+          </li>
+          <li class="glass-card reveal">
+            <span class="card-icon" aria-hidden="true">🎲</span>
+            <h3>배치의 가짓수</h3>
+            <p>같은 겉모습을 만드는 입자 배치가 많을수록 엔트로피가 커요. 볼츠만은 이것을 S = k log W라는 식으로 정리했어요.</p>
+          </li>
+          <li class="glass-card reveal">
+            <span class="card-icon" aria-hidden="true">💬</span>
+            <h3>정보의 불확실성</h3>
+            <p>메시지가 얼마나 예측하기 어려운지도 같은 수학으로 잴 수 있어요. 섀넌은 이것을 ‘정보 엔트로피’라 부르고 비트로 쟀어요.</p>
+          </li>
+        </ul>
+
+        <aside class="note-box reveal" aria-label="무질서 비유에 대한 메모">
+          <p class="note-title">잠깐, 엔트로피 = 무질서 아니었어?</p>
+          <p>“무질서도”라는 설명은 편리하지만 정확하지 않은 <em>비유</em>예요. 화학 교육자 프랭크 램버트는 2002년 논문에서 ‘무질서’를 “금 간 목발”이라 부르며, 엔트로피를 <strong>에너지의 퍼짐</strong>으로 가르치자고 주장했어요. 실제로 어떤 조건에서는 엔트로피가 늘어나는 덕분에 입자들이 오히려 질서 정연한 결정을 만들기도 해요. 깁스는 엔트로피를 “뒤섞인 정도(mixedupness)”라고 불렀답니다.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 3. COINS -->
+    <section class="section section-alt" id="coins" aria-labelledby="coins-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">02 · PLAY WITH PROBABILITY</p>
+          <h2 id="coins-title">동전을 던져 보면<br>엔트로피가 보여요</h2>
+          <p class="lead">동전 4개를 던지면 모두 앞면이 나올 확률은 16분의 1(6.25%)이지만, 앞면 2개·뒷면 2개는 16가지 중 6가지(37.5%)예요. 동전 수를 늘리면 무슨 일이 생길까요?</p>
+        </header>
+
+        <div class="demo-card reveal">
+          <div class="coin-controls">
+            <label class="coin-slider-label" for="coin-count">동전 개수: <strong class="mono" id="coin-count-out">4</strong>개</label>
+            <input type="range" id="coin-count" min="4" max="100" step="1" value="4">
+            <button class="btn btn-primary" type="button" id="coin-toss">동전 던지기</button>
+          </div>
+
+          <div class="coin-tray" id="coin-tray" aria-label="던진 동전 결과" role="img"></div>
+
+          <div class="histogram-wrap">
+            <p class="histogram-title" id="hist-title">앞면 개수별 미시 상태 비율 (막대 높이)</p>
+            <div class="histogram" id="histogram" role="img" aria-labelledby="hist-title"></div>
+            <div class="histogram-axis mono" aria-hidden="true"><span>앞면 0개</span><span id="axis-max">앞면 4개</span></div>
+          </div>
+
+          <dl class="coin-stats">
+            <div><dt>이번 결과</dt><dd class="mono" id="coin-result">아직 안 던졌어요</dd></div>
+            <div><dt>그 결과가 나올 확률</dt><dd class="mono" id="coin-result-p">—</dd></div>
+            <div><dt>모두 앞면일 확률</dt><dd class="mono" id="coin-all-heads">1 / 16 (6.25%)</dd></div>
+            <div><dt>앞뒤가 정확히 반반일 확률</dt><dd class="mono" id="coin-half">6 / 16 (37.5%)</dd></div>
+          </dl>
+          <p class="demo-note" id="coin-live" aria-live="polite"></p>
+          <noscript><p class="demo-note">이 체험은 JavaScript가 필요해요. 대신 표로 보면: 동전 100개가 모두 앞면일 확률은 약 1.27 × 10<sup>30</sup>분의 1, 정확히 50개가 앞면일 확률은 약 8%예요.</p></noscript>
+        </div>
+
+        <div class="formula-block reveal">
+          <p class="formula mono" aria-label="S 는 k 곱하기 로그 W">S = k log W</p>
+          <div class="formula-text">
+            <p><strong>S</strong>는 엔트로피, <strong>W</strong>는 미시 상태의 개수, <strong>k</strong>는 볼츠만 상수(1.380649 × 10<sup>−23</sup> J/K, 2019년 SI 재정의 이후 정확한 값)예요.</p>
+            <p>말로 풀면 “가능한 배치가 많을수록 엔트로피가 크다”는 뜻이에요. 기체 분자 10개가 모두 상자 왼쪽 절반에 모일 확률은 1/1,024이지만, 분자 1몰(약 6 × 10<sup>23</sup>개)이라면 사실상 0이에요. 그래서 기체는 퍼지기만 하고 저절로 “안 퍼지는” 일은 없어요.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SECOND LAW -->
+    <section class="section" id="second-law" aria-labelledby="law-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">03 · THE SECOND LAW</p>
+          <h2 id="law-title">커피는 왜 저절로<br>다시 뜨거워지지 않을까?</h2>
+          <p class="lead">열역학 제2법칙: 외부와 차단된(고립된) 계의 엔트로피는 줄어들지 않아요. 계는 엔트로피가 가장 큰 평형 상태를 향해 갑니다.</p>
+        </header>
+
+        <div class="law-layout">
+          <figure class="law-figure reveal">
+            <img src="images/coffee.jpg" alt="흰 잔에 담긴 블랙커피와 받침 위의 스푼" width="960" height="720" loading="lazy">
+            <figcaption>식어 가는 커피 한 잔. 열은 뜨거운 잔에서 서늘한 방으로만 퍼져요. 사진: Julius Schorzman, CC BY-SA 2.0</figcaption>
+          </figure>
+
+          <ol class="statements">
+            <li class="statement">
+              <span class="statement-num mono">01</span>
+              <div><h3>열은 뜨거운 곳에서 차가운 곳으로</h3><p>클라우지우스의 표현: 다른 변화 없이 열이 차가운 물체에서 뜨거운 물체로 옮겨 가는 일은 없어요. 냉장고가 안을 차갑게 만들려면 바깥에서 일(전기)을 해 줘야 하죠.</p></div>
+            </li>
+            <li class="statement">
+              <span class="statement-num mono">02</span>
+              <div><h3>열을 100% 일로 바꾸는 엔진은 없다</h3><p>켈빈의 표현: 하나의 열원에서 받은 열을 남김없이 일로 바꾸며 계속 도는 기관은 만들 수 없어요.</p></div>
+            </li>
+            <li class="statement">
+              <span class="statement-num mono">03</span>
+              <div><h3>현실의 과정은 되돌릴 수 없다</h3><p>무한히 느린 이상적인 ‘가역’ 과정에서는 dS = δQ/T예요. 하지만 마찰, 화학 반응, 온도 차를 건너는 열 흐름 같은 현실의 ‘비가역’ 과정은 엔트로피를 덤으로 만들어요(ΔS &gt; Q/T).</p></div>
+            </li>
+            <li class="statement">
+              <span class="statement-num mono">04</span>
+              <div><h3>그래서 시간에 방향이 생긴다</h3><p>얼음은 녹고, 커피는 식고, 잉크는 퍼져요. 모두 에너지와 입자가 더 많은 미시 상태로 퍼져 나가는 일이에요. 거꾸로 돌린 영상이 어색하게 보이는 이유죠.</p></div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="heat-demo reveal">
+          <h3 class="heat-title">뜨거운 블록과 차가운 블록을 붙이면?</h3>
+          <div class="heat-blocks" id="heat-blocks">
+            <div class="block block-hot" id="block-hot"><span class="mono" id="temp-hot">80°C</span></div>
+            <div class="block-arrow" aria-hidden="true">→ 열 →</div>
+            <div class="block block-cold" id="block-cold"><span class="mono" id="temp-cold">20°C</span></div>
+          </div>
+          <div class="btn-row btn-row-center">
+            <button class="btn btn-primary" type="button" id="heat-start">붙여 보기</button>
+            <button class="btn btn-ghost" type="button" id="heat-reset">처음으로</button>
+          </div>
+          <p class="demo-note" id="heat-note" aria-live="polite">두 블록이 같은 온도(50°C)가 될 때까지 열이 흐르고, 전체 엔트로피는 늘어나요(ΔS &gt; 0). 반대 방향은 저절로 일어나지 않아요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. HISTORY -->
+    <section class="section section-alt" id="history" aria-labelledby="history-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">04 · STORY OF A WORD</p>
+          <h2 id="history-title">한 단어가 걸어온<br>120여 년의 여행</h2>
+          <p class="lead">증기기관을 연구하던 공학자의 질문에서 시작해, 묘비에 새겨진 방정식을 지나, 디지털 통신의 언어가 되기까지.</p>
+        </header>
+
+        <ol class="timeline">
+          <li class="tl-item reveal">
+            <span class="tl-year mono">1824</span>
+            <img class="tl-img" src="images/carnot.jpg" alt="사디 카르노의 초상화" width="420" height="565" loading="lazy">
+            <h3>사디 카르노</h3>
+            <p>『불의 동력에 관한 고찰』에서 열이 높은 온도에서 낮은 온도로 “떨어질” 때 일을 한다고 봤어요. 물레방아 비유로 제2법칙의 씨앗을 뿌렸죠.</p>
+          </li>
+          <li class="tl-item reveal">
+            <span class="tl-year mono">1865</span>
+            <img class="tl-img" src="images/clausius.jpg" alt="루돌프 클라우지우스의 초상 사진" width="275" height="326" loading="lazy">
+            <h3>루돌프 클라우지우스</h3>
+            <p>그리스어 ‘변환(transformation)’에서 ‘엔트로피’라는 단어를 만들었어요. 일부러 ‘에너지(energy)’와 비슷하게 들리도록 지었대요.</p>
+          </li>
+          <li class="tl-item reveal">
+            <span class="tl-year mono">1877</span>
+            <img class="tl-img" src="images/boltzmann_tomb.jpg" alt="빈 중앙묘지에 있는 볼츠만의 묘비, 흉상 위에 S = k log W가 새겨져 있다" width="640" height="853" loading="lazy">
+            <h3>루트비히 볼츠만</h3>
+            <p>엔트로피를 미시 상태의 개수로 정의했어요(S = k ln W). 이 식은 오스트리아 빈 중앙묘지에 있는 그의 묘비에 새겨져 있어요.</p>
+          </li>
+          <li class="tl-item reveal">
+            <span class="tl-year mono">1902</span>
+            <img class="tl-img" src="images/gibbs.jpg" alt="조사이아 윌러드 깁스의 초상" width="420" height="560" loading="lazy">
+            <h3>J. 윌러드 깁스</h3>
+            <p>1870년대부터 1902년까지 통계적 엔트로피를 일반화했어요. 엔트로피가 “초보자에게는 모호해서 거부감을 줄 수 있다”고 경고하기도 했죠.</p>
+          </li>
+          <li class="tl-item reveal">
+            <span class="tl-year mono">1948</span>
+            <img class="tl-img" src="images/shannon.jpg" alt="클로드 섀넌의 흑백 사진" width="284" height="400" loading="lazy">
+            <h3>클로드 섀넌</h3>
+            <p>논문 「통신의 수학적 이론」으로 정보 엔트로피를 탄생시켰어요. 열역학의 단어가 정보의 세계로 건너간 순간이에요.</p>
+          </li>
+        </ol>
+
+        <aside class="anecdote reveal" aria-label="섀넌과 폰 노이만 일화">
+          <p class="anecdote-tag">전해지는 이야기 · 출처가 간접적이에요</p>
+          <blockquote>
+            <p>“엔트로피라고 부르세요. 엔트로피가 정말 뭔지 아는 사람은 아무도 없으니, 논쟁하면 늘 당신이 유리할 겁니다.”</p>
+          </blockquote>
+          <p>섀넌이 새 개념의 이름을 고민할 때 수학자 존 폰 노이만이 이렇게 조언했다고 <strong>전해져요</strong>. 1971년 마이런 트라이버스가 『사이언티픽 아메리칸』 글에서 회고한 내용으로, 섀넌 본인의 기록이 아닌 간접 전언이라 표현은 출처마다 조금씩 달라요.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 6. INFORMATION -->
+    <section class="section" id="information" aria-labelledby="info-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">05 · ENTROPY AS INFORMATION</p>
+          <h2 id="info-title">놀라움의 크기를 재는<br>단위, 비트</h2>
+          <p class="lead">섀넌 엔트로피는 메시지가 평균적으로 얼마나 “예측하기 어려운지”를 재요. 결과를 맞히기 어려울수록 그 결과가 전하는 정보가 많아요.</p>
+        </header>
+
+        <div class="info-layout">
+          <div class="demo-card reveal">
+            <h3 class="demo-title">기울어진 동전의 정보량</h3>
+            <label class="coin-slider-label" for="bias">앞면이 나올 확률: <strong class="mono" id="bias-out">50%</strong></label>
+            <input type="range" id="bias" min="0" max="100" step="1" value="50">
+            <div class="bits-meter">
+              <span class="bits-value mono" id="bits-value">1.000</span>
+              <span class="bits-unit">비트 / 한 번 던질 때</span>
+            </div>
+            <div class="meter-track meter-track-lg" aria-hidden="true"><span class="meter-fill" id="bits-fill"></span></div>
+            <p class="demo-note" id="bits-note">공정한 동전은 정확히 1비트예요. 결과를 전혀 예측할 수 없으니까요.</p>
+          </div>
+
+          <ul class="info-facts">
+            <li class="glass-card reveal">
+              <p class="fact-num mono">1 bit</p>
+              <p>공정한 동전 한 번 던지기의 엔트로피. 기울어진 동전은 결과가 뻔해질수록 1비트보다 작아져요.</p>
+            </li>
+            <li class="glass-card reveal">
+              <p class="fact-num mono">0.6–1.3</p>
+              <p>섀넌의 실험으로 추정한 영어 글자 하나당 정보량(비트). 26개 글자를 무작위로 쓸 때 필요한 약 4.7비트(log₂26)보다 훨씬 작아요.</p>
+            </li>
+            <li class="glass-card reveal">
+              <p class="fact-num mono">ZIP</p>
+              <p>그래서 글은 잘 압축돼요. 섀넌의 정보원 부호화 정리에 따르면 엔트로피는 손실 없는 압축의 넘을 수 없는 하한선이에요.</p>
+            </li>
+          </ul>
+        </div>
+
+        <div class="compare reveal">
+          <h3>같은 길이, 다른 엔트로피</h3>
+          <div class="compare-grid">
+            <div class="compare-item">
+              <p class="compare-label">반복되는 글</p>
+              <p class="compare-sample mono">ABABABABABABABABABAB</p>
+              <p>다음 글자를 쉽게 맞힐 수 있어요 → 정보량이 적고, 아주 짧게 압축돼요(“AB를 10번”).</p>
+            </div>
+            <div class="compare-item">
+              <p class="compare-label">무작위 글</p>
+              <p class="compare-sample mono">QZJXKVWMFPLYTRHGNDBC</p>
+              <p>다음 글자를 맞힐 방법이 없어요 → 정보량이 많고, 거의 압축되지 않아요.</p>
+            </div>
+          </div>
+          <p class="demo-note">오늘날에도 엔트로피는 데이터 압축과 머신러닝(예: 교차 엔트로피 손실 함수)의 핵심 개념이에요.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. LIFE, TIME, UNIVERSE -->
+    <section class="section section-cosmic" id="universe" aria-labelledby="universe-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">06 · LIFE, TIME &amp; THE UNIVERSE</p>
+          <h2 id="universe-title">생명과 시간,<br>그리고 우주의 끝</h2>
+          <p class="lead">커피 잔에서 시작한 이야기는 살아 있는 세포를 지나 블랙홀과 우주의 운명까지 이어져요.</p>
+        </header>
+
+        <div class="cosmic-grid">
+          <article class="cosmic-card reveal">
+            <img src="images/schrodinger.jpg" alt="에르빈 슈뢰딩거의 1933년 초상 사진" width="280" height="396" loading="lazy">
+            <div>
+              <h3>생명은 법칙을 어기지 않아요</h3>
+              <p>1943년 더블린 트리니티 칼리지 강연(책 『생명이란 무엇인가』, 1944)에서 슈뢰딩거는 생물이 주변에서 “음의 엔트로피”를 끌어와 질서를 유지한다고 말했어요. 오늘날 말로 하면 <strong>자유 에너지</strong>예요. 지구의 생명은 햇빛을 쓰고 열과 노폐물을 내보내기 때문에, 전체 엔트로피는 여전히 늘어나요.</p>
+            </div>
+          </article>
+
+          <article class="cosmic-card reveal">
+            <div class="arrow-visual" aria-hidden="true"><span>과거</span><span class="arrow-line"></span><span>미래</span></div>
+            <div>
+              <h3>시간의 화살</h3>
+              <p>물리학의 미시 법칙은 거의 시간 대칭이에요. 그런데도 시간이 한 방향으로 흐르는 건 엔트로피가 늘어나기 때문이에요. 에딩턴이 1927년 ‘시간의 화살’이라는 말을 처음 썼고, 그 출발점은 엔트로피가 아주 낮았던 초기 우주(‘과거 가설’)로 거슬러 올라가요.</p>
+            </div>
+          </article>
+
+          <article class="cosmic-card reveal">
+            <img src="images/black_hole_m87.jpg" alt="사건지평선망원경이 촬영한 M87 은하 중심 블랙홀의 주황빛 고리 이미지" width="800" height="800" loading="lazy">
+            <div>
+              <h3>블랙홀도 엔트로피를 가져요</h3>
+              <p>베켄슈타인(1972)은 블랙홀의 엔트로피가 사건의 지평선 넓이에 비례한다고 제안했고, 호킹(1974)은 블랙홀이 복사를 내놓는다는 것을 보여 공식을 완성했어요. 지평선 넓이는 줄어들지 않는다는 ‘중력판 제2법칙’은 최근 중력파 분석(GW250114)으로도 뒷받침되고 있어요.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="cosmic-timeline reveal">
+          <h3>우주의 연대기 (로그 눈금)</h3>
+          <ol class="ct-list">
+            <li><span class="ct-time mono">0</span><span class="ct-what"><strong>빅뱅</strong> — 엔트로피가 매우 낮은 특별한 출발점</span></li>
+            <li><span class="ct-time mono">~10<sup>10</sup>년</span><span class="ct-what"><strong>지금</strong> — 별과 은하, 생명. 관측 가능한 우주의 엔트로피는 약 10<sup>104</sup> k로 <em>추정</em>되고, 대부분은 초거대 블랙홀에 있어요</span></li>
+            <li><span class="ct-time mono">~10<sup>100</sup>년</span><span class="ct-what"><strong>마지막 블랙홀 증발</strong> — 태양 질량 10<sup>11</sup>배 블랙홀이 증발하는 데 걸리는 대략적인 시간</span></li>
+            <li><span class="ct-time mono">그 이후</span><span class="ct-what"><strong>열죽음</strong> — 온도 차가 사라져 더는 일을 할 수 없는 상태로 다가가요</span></li>
+          </ol>
+          <p class="demo-note">우주 규모의 엔트로피 값은 불확실성이 매우 큰 추정치예요(예: 3.1 × 10<sup>104</sup> k, 오차 +3.0/−1.7 × 10<sup>104</sup>, Egan &amp; Lineweaver 2010).</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. MYTHS & NUMBERS -->
+    <section class="section section-light" id="myths" aria-labelledby="myths-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="eyebrow">07 · MYTHS &amp; KEY NUMBERS</p>
+          <h2 id="myths-title">흔한 오해와<br>숫자로 보는 엔트로피</h2>
+          <p class="lead">카드를 눌러 뒤집어 보세요. 앞면은 흔한 오해, 뒷면은 실제 이야기예요.</p>
+        </header>
+
+        <ul class="flip-grid">
+          <li class="flip-card reveal">
+            <button class="flip-inner" type="button" aria-pressed="false">
+              <span class="flip-front"><span class="flip-tag">오해 1</span>“엔트로피는 곧 지저분함이다.”</span>
+              <span class="flip-back"><span class="flip-tag">사실</span>엔트로피는 미시 상태의 수, 에너지의 퍼짐이에요. 엔트로피가 늘어나는 덕분에 질서 있는 결정이 생기기도 해요.</span>
+            </button>
+          </li>
+          <li class="flip-card reveal">
+            <button class="flip-inner" type="button" aria-pressed="false">
+              <span class="flip-front"><span class="flip-tag">오해 2</span>“엔트로피는 어디서도 줄어들 수 없다.”</span>
+              <span class="flip-back"><span class="flip-tag">사실</span>줄어들 수 없는 건 고립계 <em>전체</em>예요. 냉장고나 세포는 더 많은 엔트로피를 밖으로 내보내며 내부를 낮춰요.</span>
+            </button>
+          </li>
+          <li class="flip-card reveal">
+            <button class="flip-inner" type="button" aria-pressed="false">
+              <span class="flip-front"><span class="flip-tag">오해 3</span>“생명과 진화는 제2법칙을 어긴다.”</span>
+              <span class="flip-back"><span class="flip-tag">사실</span>지구는 열린 계이고 태양이 에너지를 공급해요. 전체 엔트로피는 여전히 늘어나요.</span>
+            </button>
+          </li>
+          <li class="flip-card reveal">
+            <button class="flip-inner" type="button" aria-pressed="false">
+              <span class="flip-front"><span class="flip-tag">오해 4</span>“제2법칙은 절대적인 힘이다.”</span>
+              <span class="flip-back"><span class="flip-tag">사실</span>통계 법칙이에요. 엔트로피가 줄어드는 일도 가능은 하지만, 큰 계에서는 천문학적으로 일어나기 어려워요.</span>
+            </button>
+          </li>
+          <li class="flip-card reveal">
+            <button class="flip-inner" type="button" aria-pressed="false">
+              <span class="flip-front"><span class="flip-tag">오해 5</span>“정보 엔트로피와 열역학 엔트로피는 완전히 같다(혹은 전혀 무관하다).”</span>
+              <span class="flip-back"><span class="flip-tag">사실</span>수학적 형태는 같지만, 섀넌 엔트로피는 메시지와 확률을 다뤄요. 이름은 폰 노이만의 제안에서 일부 왔다고 전해져요.</span>
+            </button>
+          </li>
+          <li class="flip-card reveal">
+            <button class="flip-inner" type="button" aria-pressed="false">
+              <span class="flip-front"><span class="flip-tag">오해 6</span>“정리된 방은 열역학적 엔트로피가 낮다.”</span>
+              <span class="flip-back"><span class="flip-tag">사실</span>양말 위치를 바꾸는 건 열역학적 엔트로피에 거의 영향이 없어요. 어질러진 방은 그저 비유일 뿐이에요.</span>
+            </button>
+          </li>
+        </ul>
+
+        <h3 class="sub-title reveal">숫자로 보는 엔트로피</h3>
+        <ul class="stat-grid">
+          <li class="stat-card reveal"><p class="stat-num mono">1865</p><p>클라우지우스가 그리스어 ‘변환’에서 ‘엔트로피’라는 이름을 지은 해</p><span class="stat-src">출처: Wikipedia “Entropy”</span></li>
+          <li class="stat-card reveal"><p class="stat-num mono">S = k log W</p><p>빈에 있는 볼츠만의 묘비에 새겨진 방정식</p><span class="stat-src">출처: Wikipedia “Ludwig Boltzmann”</span></li>
+          <li class="stat-card reveal"><p class="stat-num mono">1 bit</p><p>공정한 동전 한 번 던지기의 엔트로피</p><span class="stat-src">출처: Shannon, 1948</span></li>
+          <li class="stat-card reveal"><p class="stat-num mono">1 / 1.27×10<sup>30</sup></p><p>동전 100개를 던져 모두 앞면이 나올 확률</p><span class="stat-src">계산값: (1/2)<sup>100</sup></span></li>
+          <li class="stat-card reveal"><p class="stat-num mono">0.6–1.3 bit</p><p>영어 글자 하나에 담긴 정보량. 그래서 글은 잘 압축돼요</p><span class="stat-src">출처: Shannon의 추정</span></li>
+          <li class="stat-card reveal"><p class="stat-num mono">~10<sup>104</sup> k</p><p>관측 가능한 우주의 전체 엔트로피 <strong>추정치</strong>. 대부분 초거대 블랙홀에 있어요</p><span class="stat-src">추정: Egan &amp; Lineweaver, 2010 (불확실성 큼)</span></li>
+          <li class="stat-card reveal"><p class="stat-num mono">~10<sup>100</sup>년</p><p>가장 큰 블랙홀들이 증발하는 데 걸리는 대략적인 시간</p><span class="stat-src">출처: Wikipedia “Heat death of the universe”</span></li>
+          <li class="stat-card reveal"><p class="stat-num mono">1 / 10<sup>10<sup>123</sup></sup></p><p>빅뱅의 낮은 엔트로피가 얼마나 “특별한지”에 대한 펜로즈의 <strong>추정</strong>(논란이 있는 값이라고 전해져요)</p><span class="stat-src">추정: Penrose, 『황제의 새 마음』 1989</span></li>
+        </ul>
+
+        <div class="quiz reveal" id="quiz">
+          <h3 class="sub-title">3문제 미니 퀴즈</h3>
+          <ol class="quiz-list">
+            <li class="quiz-q" data-answer="b">
+              <p class="quiz-question">‘엔트로피’라는 단어를 처음 만든 사람은?</p>
+              <div class="quiz-options">
+                <button class="quiz-opt" type="button" data-value="a">볼츠만</button>
+                <button class="quiz-opt" type="button" data-value="b">클라우지우스</button>
+                <button class="quiz-opt" type="button" data-value="c">섀넌</button>
+              </div>
+              <p class="quiz-answer">정답: 클라우지우스(1865). 그리스어 ‘변환’에서 따왔어요.</p>
+            </li>
+            <li class="quiz-q" data-answer="c">
+              <p class="quiz-question">살아 있는 세포의 내부 엔트로피가 낮게 유지되는 이유는?</p>
+              <div class="quiz-options">
+                <button class="quiz-opt" type="button" data-value="a">생명은 제2법칙의 예외라서</button>
+                <button class="quiz-opt" type="button" data-value="b">세포 안에서는 시간이 거꾸로 흘러서</button>
+                <button class="quiz-opt" type="button" data-value="c">에너지를 받아 쓰고 엔트로피를 밖으로 내보내서</button>
+              </div>
+              <p class="quiz-answer">정답: 에너지를 받아 쓰고 엔트로피를 밖으로 내보내기 때문이에요. 전체 엔트로피는 늘어나요.</p>
+            </li>
+            <li class="quiz-q" data-answer="a">
+              <p class="quiz-question">공정한 동전 한 번 던지기의 정보 엔트로피는?</p>
+              <div class="quiz-options">
+                <button class="quiz-opt" type="button" data-value="a">1비트</button>
+                <button class="quiz-opt" type="button" data-value="b">2비트</button>
+                <button class="quiz-opt" type="button" data-value="c">0비트</button>
+              </div>
+              <p class="quiz-answer">정답: 1비트. 앞면과 뒷면이 똑같이 가능하니까요.</p>
+            </li>
+          </ol>
+          <p class="quiz-score" id="quiz-score" aria-live="polite"></p>
+        </div>
+
+        <div class="closing reveal">
+          <p class="closing-line">커피가 식는 것도, 우리가 어제를 기억하고 내일을 모르는 것도,<br>모두 같은 이야기의 한 장면이에요.</p>
+          <a class="btn btn-dark" href="#hero">처음으로 돌아가기 ↑</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <p class="footer-brand">엔트로피 이야기</p>
+        <p class="footer-text">일반 독자를 위한 엔트로피 소개 페이지. 비유는 비유로, 추정치는 추정치로 표시했어요.</p>
+      </div>
+      <div>
+        <p class="footer-head">참고 자료</p>
+        <ul class="footer-links">
+          <li><a href="https://en.wikipedia.org/wiki/Entropy" rel="noopener">Wikipedia — Entropy</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics" rel="noopener">Wikipedia — Second law of thermodynamics</a></li>
+          <li><a href="https://en.wikipedia.org/wiki/Entropy_(information_theory)" rel="noopener">Wikipedia — Entropy (information theory)</a></li>
+          <li><a href="https://arxiv.org/abs/0909.3983" rel="noopener">Egan &amp; Lineweaver (2010) — A Larger Estimate of the Entropy of the Universe</a></li>
+          <li><a href="https://franklambert.net/entropysite.com/cracked_crutch.html" rel="noopener">F. L. Lambert (2002) — Disorder: A Cracked Crutch</a></li>
+          <li><a href="https://physics.nist.gov/cgi-bin/cuu/Value?k" rel="noopener">NIST — Boltzmann constant</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-head">이미지 출처</p>
+        <ul class="footer-links footer-credits">
+          <li><a href="https://commons.wikimedia.org/wiki/File:A_small_cup_of_coffee.JPG" rel="noopener">커피: Julius Schorzman, CC BY-SA 2.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Sadi_Carnot.jpeg" rel="noopener">카르노: Louis-Léopold Boilly, 퍼블릭 도메인</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Clausius.jpg" rel="noopener">클라우지우스: 작자 미상, 퍼블릭 도메인</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Zentralfriedhof_Vienna_-_Boltzmann.JPG" rel="noopener">볼츠만 묘비: Daderot, CC BY-SA 3.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Josiah_Willard_Gibbs_-from_MMS-.jpg" rel="noopener">깁스: 작자 미상, 퍼블릭 도메인</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:ClaudeShannon_MFO3807.jpg" rel="noopener">섀넌: Konrad Jacobs, CC BY-SA 2.0 de</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Erwin_Schr%C3%B6dinger_(1933).jpg" rel="noopener">슈뢰딩거: Nobel Foundation, 퍼블릭 도메인</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Black_hole_-_Messier_87_crop_max_res.jpg" rel="noopener">M87 블랙홀: Event Horizon Telescope, CC BY 4.0</a></li>
+          <li><a href="https://commons.wikimedia.org/wiki/File:Hubble_ultra_deep_field_high_rez_edit1.jpg" rel="noopener">허블 울트라 딥 필드: NASA·ESA, 퍼블릭 도메인</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-bottom">© 2026 엔트로피 이야기 · 교육용 비상업 페이지</p>
+  </footer>
+</body>
+</html>

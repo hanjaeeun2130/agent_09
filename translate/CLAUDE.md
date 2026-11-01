@@ -21,12 +21,14 @@ agent_09/
 │   │   ├── research-agent.md   # 주제 웹 자료조사 → output/research/<주제>/<주제>.md
 │   │   ├── blog-agent.md       # 네이버 블로그 글 → output/blog/<주제>/ 원고 저장 + Playwright로 임시저장
 │   │   ├── web-designer.md     # gdweb/dbcut 웹 디자인 레퍼런스 → references/web/<주제>/ (스크린샷, 링크, 분석 .md)
-│   │   └── developer.md        # 레퍼런스 + 웹 규칙으로 웹 페이지 코드 작성 → output/web/<주제>/
+│   │   └── developer.md        # 웹 페이지 코드 작성(web-rule-v1) → output/web/<task_name>/ + GitHub Pages 배포
 │   ├── rules/
 │   │   ├── browser-rule-v1/   # 웹 브라우저 제어 시 항상 로드되는 규칙 (Playwright MCP)
 │   │   │   └── browser-rule-v1.md
-│   │   └── ppt-rule-v1/   # .pptx 제작 시 항상 로드되는 규칙
-│   │       └── ppt-rule-v1.md
+│   │   ├── ppt-rule-v1/   # .pptx 제작 시 항상 로드되는 규칙
+│   │   │   └── ppt-rule-v1.md
+│   │   └── web-rule-v1/   # 웹 페이지 코드 규칙: HTML/CSS/JS 구조, lib/ 라이브러리, GitHub Pages 배포
+│   │       └── web-rule-v1.md
 │   └── skills/
 │       └── mk-ppt/    # 이 프로젝트 전용 스킬: python-pptx로 .pptx 발표 자료 생성
 │           ├── SKILL.md
@@ -48,7 +50,7 @@ agent_09/
 │   ├── slides/    # 발표 자료 .pptx (한글), mk-ppt 스킬로 생성
 │   │   ├── ai_development/              # AI_발전_발표.pptx
 │   │   └── anthropic_company_intro/     # Anthropic_회사소개.pptx
-│   └── web/       # 주제별 웹 페이지 코드, developer가 작성
+│   └── web/       # 작업별 웹 페이지 코드(index.html, css/, js/, lib/, images/), developer가 작성·배포
 ├── report/        # 최종 보고서 .docx (한글), 주제별 하위 폴더
 │   └── ai_development/                  # AI_발전_보고서 (v1, v2)
 └── translate/     # 모든 .md의 한글 번역본 (같은 상대 경로, 예: translate/output/research/...)
@@ -83,7 +85,8 @@ agent_09/
 - 네이버 로그인은 사용자가 직접 합니다. `blog-agent`가 로그인을 요청하며 돌아오면 사용자에게 알리고, 로그인이 끝난 뒤 다시 호출합니다.
 - `blog-agent`가 "작성 중인 글이 있습니다" 팝업 때문에 돌아오면, 사용자에게 기존 글을 복원할지 새 글로 시작할지 묻고 그 선택을 넣어 다시 호출합니다.
 - `web-designer` (`.claude/agents/web-designer.md`): 페이지를 만들기 전에 주제에 맞는 웹 디자인 레퍼런스를 찾을 때 사용합니다. Playwright MCP로 gdweb과 dbcut만 탐색하고(핀터레스트 금지), 스크린샷·링크·디자인/레이아웃 분석을 `references/web/<주제>/`에 저장합니다.
-- `developer` (`.claude/agents/developer.md`): 웹 페이지를 만들 때 사용합니다. 먼저 `.claude/rules/`의 웹 디자인·개발 규칙(기술 스택 포함)을 읽고, `web-designer`의 분석을 참고해 코드를 `output/web/<주제>/`에 저장합니다. 웹 규칙 파일이 아직 없으면 멈추고 확인을 요청합니다.
+- `developer` (`.claude/agents/developer.md`): 웹 페이지를 만들 때 사용합니다. `.claude/rules/web-rule-v1/web-rule-v1.md`를 따르고, `web-designer`의 분석을 참고해 코드를 `output/web/<task_name>/`에 저장한 뒤, `<task_name>` 이름의 새 공개 저장소를 만들어 확인 없이 GitHub Pages로 배포하고, 배포 링크와 설치한 라이브러리를 보고합니다. 호출할 때 `task_name`을 넘깁니다.
+- 웹 코드 작업에는 `.claude/rules/web-rule-v1/web-rule-v1.md`를 가장 먼저 적용합니다. 우선순위: web-rule-v1 → 사용자 요청 → 레퍼런스 분석.
 - 새 웹 페이지는 `web-designer`를 먼저 실행한 뒤, 그 분석 경로를 `developer`에 넘깁니다.
 - 보고서(`.docx`)는 `report/<주제>/`에 저장합니다. 산출물을 프로젝트 루트에 두지 않습니다.
 - 발표 자료(`.pptx`)는 `mk-ppt` 스킬(`.claude/skills/mk-ppt/`)을 사용해 `output/slides/<주제>/`에 저장합니다.

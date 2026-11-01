@@ -21,12 +21,14 @@ agent_09/
 │   │   ├── research-agent.md   # Web research on a topic → output/research/<topic>/<topic>.md
 │   │   ├── blog-agent.md       # Naver blog post → output/blog/<topic>/ manuscript + Playwright draft save
 │   │   ├── web-designer.md     # Web design references from gdweb/dbcut → references/web/<topic>/ (screenshots, links, analysis .md)
-│   │   └── developer.md        # Web page code from references + web rules → output/web/<topic>/
+│   │   └── developer.md        # Web page code (web-rule-v1) → output/web/<task_name>/ + GitHub Pages deploy
 │   ├── rules/
 │   │   ├── browser-rule-v1/   # Always-loaded rules for web browser control (Playwright MCP)
 │   │   │   └── browser-rule-v1.md
-│   │   └── ppt-rule-v1/   # Always-loaded rules for building .pptx decks
-│   │       └── ppt-rule-v1.md
+│   │   ├── ppt-rule-v1/   # Always-loaded rules for building .pptx decks
+│   │   │   └── ppt-rule-v1.md
+│   │   └── web-rule-v1/   # Rules for web page code: HTML/CSS/JS structure, libraries in lib/, GitHub Pages deploy
+│   │       └── web-rule-v1.md
 │   └── skills/
 │       └── mk-ppt/    # Project-only skill: builds .pptx decks with python-pptx
 │           ├── SKILL.md
@@ -48,7 +50,7 @@ agent_09/
 │   ├── slides/    # Presentations as .pptx (Korean), built with the mk-ppt skill
 │   │   ├── ai_development/              # AI_발전_발표.pptx
 │   │   └── anthropic_company_intro/     # Anthropic_회사소개.pptx
-│   └── web/       # Web page code by topic, built by developer
+│   └── web/       # Web page code by task (index.html, css/, js/, lib/, images/), built and deployed by developer
 ├── report/        # Final reports as .docx (Korean), one subfolder per topic
 │   └── ai_development/                  # AI_발전_보고서 (v1, v2)
 └── translate/     # Korean translations of every .md, mirroring relative paths (e.g. translate/output/research/...)
@@ -83,7 +85,8 @@ agent_09/
 - Naver login is done by the user. If `blog-agent` returns asking for login, tell the user, wait until they finish, then call it again.
 - If `blog-agent` returns because of the "작성 중인 글이 있습니다" popup, ask the user whether to restore the old draft or start a new post, then call it again with their choice.
 - `web-designer` (`.claude/agents/web-designer.md`): use to find web design references for a topic before building a page. It searches only gdweb and dbcut (never Pinterest) with the Playwright MCP and saves screenshots, links and a design/layout analysis in `references/web/<topic>/`.
-- `developer` (`.claude/agents/developer.md`): use to build a web page. It reads the web design/development rules in `.claude/rules/` first (they set the tech stack), then the `web-designer` analysis, and saves the code in `output/web/<topic>/`. If no web rule file exists yet, it stops and asks.
+- `developer` (`.claude/agents/developer.md`): use to build a web page. It follows `.claude/rules/web-rule-v1/web-rule-v1.md`, reads the `web-designer` analysis, saves the code in `output/web/<task_name>/`, deploys it to GitHub Pages in a new public repository named `<task_name>` without asking, and reports the live link and any libraries it installed. Pass it the `task_name`.
+- For any web code work, apply `.claude/rules/web-rule-v1/web-rule-v1.md` first. Priority: web-rule-v1 → the user's request → the reference analysis.
 - For a new web page, run `web-designer` first, then pass its analysis path to `developer`.
 - Save reports (`.docx`) in `report/<topic>/`. Do not leave deliverables in the project root.
 - Save presentations (`.pptx`) in `output/slides/<topic>/`, using the `mk-ppt` skill (`.claude/skills/mk-ppt/`).

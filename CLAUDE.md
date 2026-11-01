@@ -19,7 +19,9 @@ agent_09/
 ├── .claude/
 │   ├── agents/        # Project sub agents
 │   │   ├── research-agent.md   # Web research on a topic → output/research/<topic>/<topic>.md
-│   │   └── blog-agent.md       # Naver blog post → output/blog/<topic>/ manuscript + Playwright draft save
+│   │   ├── blog-agent.md       # Naver blog post → output/blog/<topic>/ manuscript + Playwright draft save
+│   │   ├── web-designer.md     # Web design references from gdweb/dbcut → references/web/<topic>/ (screenshots, links, analysis .md)
+│   │   └── developer.md        # Web page code from references + web rules → output/web/<topic>/
 │   ├── rules/
 │   │   ├── browser-rule-v1/   # Always-loaded rules for web browser control (Playwright MCP)
 │   │   │   └── browser-rule-v1.md
@@ -31,8 +33,9 @@ agent_09/
 │           ├── references/python_pptx_api.md
 │           └── scripts/build_pptx.py
 ├── references/    # Design references (.md, English) for deliverables
-│   └── ppt/
-│       └── slide-design-system.md   # Orange slide design system (colors, fonts, layout)
+│   ├── ppt/
+│   │   └── slide-design-system.md   # Orange slide design system (colors, fonts, layout)
+│   └── web/       # Web design references by topic, made by web-designer: <topic>_reference.md + images/
 ├── output/        # Deliverables, one folder per task type → one subfolder per topic
 │   ├── research/  # Research findings as .md (English)
 │   │   ├── ai_development/              # AI development research (v1, v2)
@@ -42,9 +45,10 @@ agent_09/
 │   │   └── kyobo_economy_book/          # Kyobo economy book notes (p4–5, v1, v2)
 │   ├── blog/      # Naver blog manuscripts as .md (Korean), written by blog-agent
 │   │   └── kimjang_cost_2026/           # Kimjang cost posts (v1, v2) + images/
-│   └── slides/    # Presentations as .pptx (Korean), built with the mk-ppt skill
-│       ├── ai_development/              # AI_발전_발표.pptx
-│       └── anthropic_company_intro/     # Anthropic_회사소개.pptx
+│   ├── slides/    # Presentations as .pptx (Korean), built with the mk-ppt skill
+│   │   ├── ai_development/              # AI_발전_발표.pptx
+│   │   └── anthropic_company_intro/     # Anthropic_회사소개.pptx
+│   └── web/       # Web page code by topic, built by developer
 ├── report/        # Final reports as .docx (Korean), one subfolder per topic
 │   └── ai_development/                  # AI_발전_보고서 (v1, v2)
 └── translate/     # Korean translations of every .md, mirroring relative paths (e.g. translate/output/research/...)
@@ -61,6 +65,8 @@ agent_09/
   - Naver blog manuscripts (`.md`, Korean): `output/blog/<topic>/`. They are the post itself, so they are an exception to the English `.md` rule and need no translation.
   - Slides (`.pptx`): `output/slides/<topic>/`
   - Reports (`.docx`): `report/<topic>/`
+  - Web design references (screenshots + analysis `.md`, English): `references/web/<topic>/`
+  - Web page code: `output/web/<topic>/`
   - A new task type (e.g. card news, video): make `output/<type>/<topic>/` and add it to the tree above.
 - Example:
   ```
@@ -76,6 +82,9 @@ agent_09/
 - **Before every `blog-agent` call, ask the user to confirm the Naver blog ID**, even if one was used before, and pass the confirmed ID in the prompt.
 - Naver login is done by the user. If `blog-agent` returns asking for login, tell the user, wait until they finish, then call it again.
 - If `blog-agent` returns because of the "작성 중인 글이 있습니다" popup, ask the user whether to restore the old draft or start a new post, then call it again with their choice.
+- `web-designer` (`.claude/agents/web-designer.md`): use to find web design references for a topic before building a page. It searches only gdweb and dbcut (never Pinterest) with the Playwright MCP and saves screenshots, links and a design/layout analysis in `references/web/<topic>/`.
+- `developer` (`.claude/agents/developer.md`): use to build a web page. It reads the web design/development rules in `.claude/rules/` first (they set the tech stack), then the `web-designer` analysis, and saves the code in `output/web/<topic>/`. If no web rule file exists yet, it stops and asks.
+- For a new web page, run `web-designer` first, then pass its analysis path to `developer`.
 - Save reports (`.docx`) in `report/<topic>/`. Do not leave deliverables in the project root.
 - Save presentations (`.pptx`) in `output/slides/<topic>/`, using the `mk-ppt` skill (`.claude/skills/mk-ppt/`).
 - For any `.pptx` work, apply `.claude/rules/ppt-rule-v1/ppt-rule-v1.md` first. Priority: ppt-rule-v1 → the user's design `.md` → `mk-ppt` defaults.

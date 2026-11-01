@@ -8,7 +8,7 @@
 **자동으로 저장되지는 않지만, 사용자가 직접 다운로드할 필요도 없습니다.**
 
 - Higgsfield MCP에는 결과를 로컬 폴더에 저장하는 옵션이 없습니다. 생성된 이미지는 Higgsfield 서버에 남고, 도구는 **결과 URL**로 돌려줍니다.
-- Claude Code가 그 URL을 받아 PowerShell(`Invoke-WebRequest`)로 `research/images/<주제>/` 같은 프로젝트 폴더에 내려받을 수 있습니다. 즉 "생성 → URL 받기 → Claude가 다운로드" 순서로, 사용자가 손으로 받을 일은 없습니다.
+- Claude Code가 그 URL을 받아 PowerShell(`Invoke-WebRequest`)로 `output/<작업종류>/<주제>/images/` 같은 프로젝트 폴더에 내려받을 수 있습니다. 즉 "생성 → URL 받기 → Claude가 다운로드" 순서로, 사용자가 손으로 받을 일은 없습니다.
 - 이 계정에서는 이 커넥터로 **무료 이미지 생성이 불가능**해서, 테스트용 실제 이미지는 만들지 않았습니다.
 
 ## 확인한 내용

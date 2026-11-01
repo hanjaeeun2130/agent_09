@@ -1,6 +1,6 @@
 # Thumbnail Image Concepts: "How Not to Be the Campsite Villain"
 
-- Based on: `research/camping_cardnews_manners.md` (Card 1 — Thumbnail)
+- Based on: `output/research/camping_cardnews/camping_cardnews_manners.md` (Card 1 — Thumbnail)
 - Date: 2026-10-25
 - Format: Instagram card news, 1:1 square (1080 × 1080 px)
 - Thumbnail copy (added later in a design tool): 캠핑장 빌런 되지 않는 법 / 이것만 지켜도 '매너 캠퍼' 인정 ✅ — 꼭 지킬 매너 7가지

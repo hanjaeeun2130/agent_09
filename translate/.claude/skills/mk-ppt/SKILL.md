@@ -11,7 +11,7 @@ user-invocable: false
 
 # mk-ppt — python-pptx로 .pptx 발표 자료 만들기
 
-이 스킬은 내용(주제, 사용자의 메모, `research/`·`report/`의 파일)을 깔끔한 16:9 발표 자료로 바꿉니다. 실제 생성은 번들 스크립트가 맡기 때문에 모든 자료가 같은 디자인과 같은 한글 글꼴 처리를 갖습니다. 여러분의 역할은 흐름을 기획하고, JSON 명세를 쓰고, 스크립트를 실행하고, 결과를 확인하는 것입니다.
+이 스킬은 내용(주제, 사용자의 메모, `output/research/<주제>/`·`report/<주제>/`의 파일)을 깔끔한 16:9 발표 자료로 바꿉니다. 실제 생성은 번들 스크립트가 맡기 때문에 모든 자료가 같은 디자인과 같은 한글 글꼴 처리를 갖습니다. 여러분의 역할은 흐름을 기획하고, JSON 명세를 쓰고, 스크립트를 실행하고, 결과를 확인하는 것입니다.
 
 ## 0단계 — PPT 규칙부터 읽기
 
@@ -28,7 +28,7 @@ user-invocable: false
 이 프로젝트는 `CLAUDE.md`에 자체 규칙이 있으며 그것이 우선합니다. 발표 자료와 관련해 중요한 규칙은 다음과 같습니다.
 
 - **Todo list를 먼저 보고하고 승인을 기다립니다.** 만들기 전에 계획을 보고합니다: 슬라이드 개요(각 슬라이드 제목과 종류), 원본 파일, 저장 경로, 미정 사항(테마, 슬라이드 수, 청중). 사용자가 승인한 뒤에만 만듭니다.
-- **발표 자료는 `slides/`에 저장합니다.** 프로젝트 루트에 두지 않습니다.
+- **발표 자료는 `output/slides/<주제>/`에 저장합니다**(주제마다 영어 `snake_case` 폴더 하나, 예: `output/slides/ai_development/`). 프로젝트 루트나 `output/slides/` 바로 아래에 두지 않습니다.
 - **덮어쓰지 않습니다.** 파일이 이미 있으면 스크립트가 자동으로 `_v2`, `_v3`, …를 붙이므로 항상 기본 이름을 넘기면 됩니다.
 - **한국어로 답하고**, 사용자가 달리 요청하지 않으면 슬라이드 문구도 한국어로 씁니다.
 - JSON 명세는 임시 파일이므로 프로젝트가 아니라 scratchpad 디렉터리에 씁니다.
@@ -41,9 +41,9 @@ user-invocable: false
 4. **명세 작성** (JSON, UTF-8)을 scratchpad에 저장합니다.
 5. **프로젝트 루트에서 스크립트 실행**:
    ```bash
-   python .claude/skills/mk-ppt/scripts/build_pptx.py <scratchpad>/spec.json
+   python .claude/skills/mk-ppt/scripts/build_pptx.py <scratchpad>/spec.json --output output/slides/<topic>/<filename>.pptx
    ```
-   `slides/<filename>`(또는 `--output <경로>`)에 저장하고, 파일을 다시 열어 검증한 뒤 슬라이드마다 한 줄씩 출력합니다.
+   `--output` 경로에 저장하고(항상 `output/slides/<주제>/<파일명>.pptx`를 넘깁니다), 파일을 다시 열어 검증한 뒤 슬라이드마다 한 줄씩 출력합니다.
 6. **눈으로 확인 — 필수(ppt-rule-v1 §3).** 이 컴퓨터에는 PowerPoint가 설치되어 있으므로 모든 슬라이드를 PNG로 내보내 Read 도구로 확인합니다:
    ```powershell
    New-Item -ItemType Directory -Force "<scratchpad>\png" | Out-Null

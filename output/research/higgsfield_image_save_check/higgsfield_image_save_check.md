@@ -8,7 +8,7 @@
 **Images are not saved automatically, but you do not have to download them by hand either.**
 
 - The Higgsfield MCP has no option to save results into a local folder. Generated images stay on Higgsfield's servers, and the tools return them as **result URLs**.
-- Claude Code can take that URL and download it with PowerShell (`Invoke-WebRequest`) into a project folder such as `research/images/<topic>/`. So the flow is "generate → get URL → Claude downloads it" with no manual step for the user.
+- Claude Code can take that URL and download it with PowerShell (`Invoke-WebRequest`) into a project folder such as `output/<type>/<topic>/images/`. So the flow is "generate → get URL → Claude downloads it" with no manual step for the user.
 - On this account, **free image generation is not possible** through this connector, so no real image was generated for the test.
 
 ## What Was Checked

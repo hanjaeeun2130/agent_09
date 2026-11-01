@@ -20,3 +20,8 @@ These rules apply whenever a PowerPoint (.pptx) presentation is created or edite
 - Never let text and shapes, or shapes and other shapes, overlap in a way that hurts readability.
 - Keep text short: cut wording, reduce bullet count, or split content across slides instead of shrinking the font below a readable size.
 - After building, render the slides to images and check every slide for overflow, overlap, broken line wraps and crowding; fix the spec and rebuild until none remain.
+
+## 4. Save location
+
+- Save every deck in `output/slides/<topic>/` (English `snake_case` topic folder, e.g. `output/slides/ai_development/`), following the task-folder rule in `CLAUDE.md`. Pass this path to the build script with `--output`.
+- Never save decks in the old `slides/` folder, in the project root, or directly in `output/slides/`.

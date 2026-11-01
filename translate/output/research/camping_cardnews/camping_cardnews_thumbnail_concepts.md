@@ -1,6 +1,6 @@
 # 썸네일 이미지 컨셉: 「캠핑장 빌런 되지 않는 법」
 
-- 기준 자료: `research/camping_cardnews_manners.md` (1장 — 썸네일)
+- 기준 자료: `output/research/camping_cardnews/camping_cardnews_manners.md` (1장 — 썸네일)
 - 작성일: 2026-10-25
 - 형식: 인스타그램 카드뉴스, 1:1 정사각 (1080 × 1080 px)
 - 썸네일 문구 (디자인 툴에서 나중에 얹음): 캠핑장 빌런 되지 않는 법 / 이것만 지켜도 '매너 캠퍼' 인정 ✅ — 꼭 지킬 매너 7가지
